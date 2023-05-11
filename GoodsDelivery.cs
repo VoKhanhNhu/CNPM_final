@@ -194,5 +194,39 @@ namespace VKN
                 }
             }
         }
-    }
-}
+        
+         private void printB_Click(object sender, EventArgs e)
+        {
+            PrintDocument document = new PrintDocument();
+            document.PrintPage += new PrintPageEventHandler(this.printDocument_PrintPage);
+            PrintDialog dialog = new PrintDialog();
+            dialog.Document = document;
+            DialogResult result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK) document.Print();            
+        }
+        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            string s = "Order ID: " + orderTB.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 100, 100);
+            s = "Delivery ID: " + deliveryTB.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 100, 130);
+            s = "Delivery Date: " + dateDTP.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 100, 160);
+            s = "Delivery Status: " + deliveryStatusTB.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 500, 160);
+            s = "Total Cost: " + totalCostTB.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 100, 190);
+            s = "Payment Status: " + paymentStatusTB.Text + "\n";
+            e.Graphics.DrawString(s, new Font("Arial", 12), Brushes.Black, 500, 190);
+
+            // Create a bitmap of the DataGridView
+            Bitmap bmp = new Bitmap(dataGridView1.Width, dataGridView1.Height);
+            dataGridView1.DrawToBitmap(bmp, dataGridView1.Bounds);
+
+            // Draw the bitmap on the page
+            e.Graphics.DrawImage(bmp, 0, 210);
+                }
+            }
+        }
+    
